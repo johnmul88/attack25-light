@@ -1,5 +1,182 @@
-<html>
+<html lang='ja'>
+<head>
+  <meta charset="utf-8"/>
+  <title>アタック25</title>
+  <link rel="icon" href="./images/favicon.ico">
+  <link rel='stylesheet' type='text/css' href='./css/main.css?t=5'>
+  <link rel='stylesheet' type='text/css' href='./css/draggable.css?t=5'>
+  <link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
+
+  <style>
+button.plus:before {
+  content:"+";
+}
+.flexiblebox {
+ display: -webkit-flex;
+ display: flex;
+ -webkit-align-items: center; /* 縦方向中央揃え（Safari用） */
+ align-items: center; /* 縦方向中央揃え */
+ -webkit-justify-content: center; /* 横方向中央揃え（Safari用） */
+ justify-content: center; /* 横方向中央揃え */
+ margin: 1.0rem;
+}
+#user {
+  margin: 1.0rem;
+}
+.footer {
+  margin-top: 1.0rem;
+}
+
+/* Larger than mobile screen */
+@media (min-width: 40.0rem) { ... }
+
+/* Larger than tablet screen */
+@media (min-width: 80.0rem) { ... }
+
+/* Larger than desktop screen */
+@media (min-width: 120.0rem) { ... }
+  </style>
+</head>
 <body>
-hello
+<div class="container">
+  <h2>アタック25</h2>
+  <h4>遊び方</h4>
+  <ol style="border: medium solid #666666;">
+    <li>参加者を追加(4人まで)</li>
+    <li>問題を出す</li>
+    <li>正解した参加者をクリック</li>
+    <li>参加者が選んだパネルをクリック</li>
+    <b>※選択箇所しか変わらないから自分で色染めてください</b>
+  </ol>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="column">
+      <div class="main">
+        <div class="main-area">
+          <div class="content">
+            <div id="maps">
+              <div class="map-parts" onclick='selectMap(this)'>1</div>
+              <div class="map-parts" onclick='selectMap(this)'>2</div>
+              <div class="map-parts" onclick='selectMap(this)'>3</div>
+              <div class="map-parts" onclick='selectMap(this)'>4</div>
+              <div class="map-parts" onclick='selectMap(this)'>5</div>
+              <div class="map-parts" onclick='selectMap(this)'>6</div>
+              <div class="map-parts" onclick='selectMap(this)'>7</div>
+              <div class="map-parts" onclick='selectMap(this)'>8</div>
+              <div class="map-parts" onclick='selectMap(this)'>9</div>
+              <div class="map-parts" onclick='selectMap(this)'>10</div>
+              <div class="map-parts" onclick='selectMap(this)'>11</div>
+              <div class="map-parts" onclick='selectMap(this)'>12</div>
+              <div class="map-parts" onclick='selectMap(this)'>13</div>
+              <div class="map-parts" onclick='selectMap(this)'>14</div>
+              <div class="map-parts" onclick='selectMap(this)'>15</div>
+              <div class="map-parts" onclick='selectMap(this)'>16</div>
+              <div class="map-parts" onclick='selectMap(this)'>17</div>
+              <div class="map-parts" onclick='selectMap(this)'>18</div>
+              <div class="map-parts" onclick='selectMap(this)'>19</div>
+              <div class="map-parts" onclick='selectMap(this)'>20</div>
+              <div class="map-parts" onclick='selectMap(this)'>21</div>
+              <div class="map-parts" onclick='selectMap(this)'>22</div>
+              <div class="map-parts" onclick='selectMap(this)'>23</div>
+              <div class="map-parts" onclick='selectMap(this)'>24</div>
+              <div class="map-parts" onclick='selectMap(this)'>25</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="button button-outline" onclick='clearSelectColor()'>アタックチャンス</button>
+    </div>
+    <div class="column">
+      <b>参加者</b>
+        <div id="users" class="row">
+          <div id="users-table" class="column">
+<!--             <div id="user" class="flexiblebox">
+              <img src="./images/1.png" width="64" height="64">ミトミと
+            </div> -->
+            <div id="user-add">
+              <input type="text" placeholder="みトみト" id="userName"><button class="button button-outline plus" onclick='addUser(this)'></button>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+  <div class="row">
+<!--   <div class="row">
+    <div class="column">
+    こめ
+      <form>
+        <fieldset>
+          <label for="commentField">Comment</label>
+          <textarea placeholder="コメ" id="commentField"></textarea>
+          <input class="button-primary" type="submit" value="Send">
+        </fieldset>
+      </form>
+    </div>
+    <div class="column">
+      コメ表示
+    </div>
+  </div> -->
+</div>
+<script>
+var userCount = 0
+var selectColor = getCol(userCount)
+var mapId = 0
+
+function addUser(e) {
+  userCount++
+
+  let userName = document.getElementById('userName').value ? document.getElementById('userName').value : "家来"
+  let usersTable = document.getElementById("users-table")
+  let backGroundCol = getCol(userCount)
+  let content = `<div id="user${userCount}" class="flexiblebox" style="background-color: ${backGroundCol};" onclick='selectUser(this)'>
+  <img src="./images/${userCount}.png" width="64" height="64">${userName}
+</div>`
+  usersTable.insertAdjacentHTML("afterbegin", content)
+  document.getElementById('userName').value = ''
+
+  if (4 <= userCount) document.getElementById('user-add').remove()
+}
+
+function clearSelectColor() {
+  selectColor = "#ffffff"
+}
+
+function getCol(num) {
+  if (num == 1) {
+    return "#ff7f50"
+  } else if (num == 2) {
+    return "#508cff"
+  } else if (num == 3) {
+    return "#fffff5"
+  } else if (num == 4) {
+    return "#50ff98"
+  } else {
+    return "#ffffff"
+  }
+}
+
+function selectUser(e) {
+  selectColor = e.style.backgroundColor
+  mapId = this.id
+}
+
+function selectMap(e) {
+  e.style.backgroundColor = selectColor;
+  e.id = mapId
+  // let map_parts = document.querySelectorAll('#maps .map-parts');
+  // [].forEach.call(map_parts, function(part, index) {
+  //   console.log(part)
+  //   console.log(index)
+  // });
+}
+
+</script>
+
+<footer class="footer">
+  <section class="container">
+    <p>画像はこちらからお借りしました。<a href="http://blog.livedoor.jp/genove7/" target="_blank"> ドット絵修行中@genove7</a></p>
+  </section>
+</footer>
 </body>
 </html>
